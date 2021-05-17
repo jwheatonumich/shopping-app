@@ -1,4 +1,15 @@
-p {
+*{
+    font-size: 24;
+}
+
+.ingredientPara {
    margin-top: 2px;
    margin-bottom: 2px;
+
 }
+
+.checkedIngredientPara {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-decoration: line-through;
+ }

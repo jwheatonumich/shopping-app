@@ -97,16 +97,16 @@ function countIngredients(objArr){
 function displayIngredients(){
     for (i in ingredientsCount){
         ingredientPara = document.createElement("p");
-        input.setAttribute("class","ingredientPara");
-        //ingredientPara.textContent = ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity;
+        ingredientPara.setAttribute("class","ingredientPara");
 
         var checkbox = document.createElement('input');
         checkbox.type = "checkbox";
         checkbox.name = "name";
         checkbox.value = "value";
         checkbox.id = "id";
+        checkbox.setAttribute("onclick","checkedIngredient(this);");
 
-        var label = document.createElement('label')
+        var label = document.createElement('label');
         label.htmlFor = "id";
         label.appendChild(document.createTextNode(ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity));
 
@@ -114,8 +114,6 @@ function displayIngredients(){
         ingredientPara.appendChild(checkbox);
         ingredientPara.appendChild(label);
     
-        //controlDiv.appendChild(ingredientPara);
-        //controlDiv.appendChild(linebreak);
     }
 }
 
@@ -127,3 +125,8 @@ submit.addEventListener("click", function() {
   ingredientsCount = countIngredients(ingredients);
   displayIngredients()
 });
+
+//Event to handle clicking an ingredient checkbox
+function checkedIngredient(el){
+    el.parentNode.className = el.checked ? "checkedIngredientPara" : "ingredientPara"
+  }
