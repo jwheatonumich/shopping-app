@@ -98,12 +98,24 @@ function displayIngredients(){
     for (i in ingredientsCount){
         ingredientPara = document.createElement("p");
         input.setAttribute("class","ingredientPara");
-        ingredientPara.textContent = ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity;
-    
-        linebreak = document.createElement("br");
-    
+        //ingredientPara.textContent = ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity;
+
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = "name";
+        checkbox.value = "value";
+        checkbox.id = "id";
+
+        var label = document.createElement('label')
+        label.htmlFor = "id";
+        label.appendChild(document.createTextNode(ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity));
+
         controlDiv.appendChild(ingredientPara);
-        controlDiv.appendChild(linebreak);
+        ingredientPara.appendChild(checkbox);
+        ingredientPara.appendChild(label);
+    
+        //controlDiv.appendChild(ingredientPara);
+        //controlDiv.appendChild(linebreak);
     }
 }
 
