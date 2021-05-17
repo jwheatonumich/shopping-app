@@ -128,5 +128,12 @@ submit.addEventListener("click", function() {
 
 //Event to handle clicking an ingredient checkbox
 function checkedIngredient(el){
-    el.parentNode.className = el.checked ? "checkedIngredientPara" : "ingredientPara"
+    let parentDiv = el.parentNode.parentNode;
+    let parentP = el.parentNode;
+    el.parentNode.className = el.checked ? "checkedIngredientPara" : "ingredientPara";
+    if(el.checked){
+        el.parentNode.parentNode.appendChild(el.parentNode);
+    }else{
+        el.parentNode.parentNode.insertBefore(el.parentNode, el.parentNode.parentNode.firstChild);
+    }
   }
