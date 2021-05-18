@@ -79,17 +79,49 @@ function totalIngredients(){
 let ingredientsCount = [];
 
 function countIngredients(objArr){
-    // first, convert data into a Map with reduce
+
+    // Create a map with the sum of each ingredient
     let counts = objArr.reduce((prev, curr) => {
+        //Get the sum so far of the current ingredient, or use 0 if none
         let count = prev.get(curr.Ingredient) || 0;
+        //Add the new number to the running total for the ingredient
         prev.set(curr.Ingredient, curr.Quantity + count);
         return prev;
     }, new Map());
-  
-  // then, map your counts object back to an array
+
+  // Turn the map into an array
   let reducedObjArr = [...counts].map(([Ingredient, Quantity]) => {
     return {Ingredient, Quantity}
   })
+
+    // Create a map with the unit of each ingredient
+    let units = objArr.reduce((prev, curr) => {
+        //Set the prev unit to the current unit
+        prev.set(curr.Ingredient, curr.Unit);
+        return prev;
+    }, new Map());
+
+  // Turn the map into an array
+  let reducedUnitArr = [...units].map(([Ingredient, Unit]) => {
+    return {Ingredient, Unit}
+  })
+
+  //Add units to the ingredient count array
+  //Iterate through the objects in the count array
+  for (i in reducedObjArr){
+    let newUnit
+
+    //find the matching unit in the units array
+    for (j in reducedUnitArr){
+        if (reducedUnitArr[j]["Ingredient"] == reducedObjArr[i]["Ingredient"]){
+            newUnit = reducedUnitArr[j]["Unit"]
+        }
+    }
+
+    //Add the unit to the count array
+    reducedObjArr[i]["Unit"] = newUnit;
+  }
+
   return reducedObjArr
 }
 
@@ -108,7 +140,7 @@ function displayIngredients(){
 
         var label = document.createElement('label');
         label.htmlFor = "id";
-        label.appendChild(document.createTextNode(ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity));
+        label.appendChild(document.createTextNode(ingredientsCount[i].Ingredient + ": " + ingredientsCount[i].Quantity + " " + ingredientsCount[i].Unit));
 
         controlDiv.appendChild(ingredientPara);
         ingredientPara.appendChild(checkbox);
@@ -128,9 +160,11 @@ submit.addEventListener("click", function() {
 
 //Event to handle clicking an ingredient checkbox
 function checkedIngredient(el){
-    let parentDiv = el.parentNode.parentNode;
-    let parentP = el.parentNode;
+
+    //If the box is checked, strikethrough, otherwise don't
     el.parentNode.className = el.checked ? "checkedIngredientPara" : "ingredientPara";
+
+    //If the box is checked, move to bottom, otherwise move to top
     if(el.checked){
         el.parentNode.parentNode.appendChild(el.parentNode);
     }else{
